@@ -35,22 +35,44 @@ pdf = canvas.Canvas(f"bible-{str(start)}.pdf")
 
 # Create pages
 # title page
+
 pdf.setFont("Courier", 24)
-pdf.drawCentredString(300, 750, "AutoCypherBible Generated Bible")
+pdf.drawString(5, 5, "AutoCypherBible")
+pdf.drawCentredString(300, 450, "Cypher Bible")
 pdf.setFont("Courier", 12)
-pdf.drawCentredString(300, 700, f'Alphabet: {alphabet}')
-pdf.drawCentredString(300, 650, f'Obscurity: {str(obscurity)}')
+pdf.grid([25,575],[25,825])
+pdf.drawCentredString(300, 400, f'Alphabet: {alphabet}')
+pdf.drawCentredString(300, 350, f'Obscurity: {str(obscurity)}')
 pdf.showPage()
 for i in range(0,len(alphabet)):
-    pdf.setFont("Courier", 12)
-    pdf.drawString(2,2, "AutoCypherBible")
+    pdf.grid([25,575],[25,825])
+    pdf.setFont("Courier", 24)
+    pdf.drawString(5, 5, "AutoCypherBible")
     # Draw the letter top center middle
+    pdf.setFont("Courier", 32)
     pdf.drawCentredString(300, 750, alphabet[i])
+    pdf.setFont("Courier", 12)
     # draw a grid of numbers
     width = obscurity//10
     height = obscurity//width
+    xlist = [*range(50,50+width*50,50)]
+    ylist = [*range(50,50+height*50,50)]
+    # make it 10x10
+    xlist.append(50+width*50)
+    ylist.append(50+height*50)
+    # offset the grid
+    for j in range(0,len(ylist)):
+        ylist[j] += 180
     for j in range(0,height):
         for k in range(0,width):
-            pdf.drawString(50+k*50, 700-j*50, str(crypt[alphabet[i]][j*width+k]))
+            pdf.drawString(60+k*50, 700-j*50, str(crypt[alphabet[i]][j*width+k]))
+    pdf.grid(xlist,ylist)
+    # Draw coordinates above the grid and to the left
+    pdf.setFont("Courier", 12)
+    pdf.drawString(70/2, 735, "x")
+    for j in range(0,width):
+        pdf.drawString(70+j*50, 735, str(j+1))
+    for j in range(0,height):
+        pdf.drawString(35, 700-j*50, str(j+1))
     pdf.showPage()
 pdf.save()
