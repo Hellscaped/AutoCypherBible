@@ -1,3 +1,4 @@
 bible-*.pdf
+bible-*.json
 *.pyc
 *.pyo
