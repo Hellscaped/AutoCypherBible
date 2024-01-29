@@ -1,9 +1,20 @@
 #!/usr/bin/env python3
-import time,numpy as np
+import time,numpy as np,json,hashlib
 from reportlab.pdfgen import canvas
 # Seed the random number generator
-np.random.seed(np.random.randint(0,1000))
-
+def seed():
+    return int(hashlib.sha256(str(time.time()).encode()).hexdigest(), 16) % 10**8
+np.random.seed(seed())
+# Generate a random identifier
+def id_generator(size=3, chars='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'):
+    s = ''
+    for i in range(size):
+        for d in range(0,5):
+            s += chars[seed()%len(chars)]
+        if i < size-1:
+            s += '-'
+    return s
+identifier = id_generator()
 alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 obscurity = 100 # Code numbers per letter
 print(f"Generating a {str(obscurity)} codes per {str(len(alphabet))} letter multibet cypher")
@@ -31,7 +42,7 @@ print(f"Generated in {str(time.time()-start)} seconds")
 print ("Generating a PDF file")
 start = time.time()
 # Create a PDF file.
-pdf = canvas.Canvas(f"bible-{str(start)}.pdf")
+pdf = canvas.Canvas(f"bible-{identifier}.pdf")
 
 # Create pages
 # title page
@@ -76,3 +87,11 @@ for i in range(0,len(alphabet)):
         pdf.drawString(35, 700-j*50, str(j+1))
     pdf.showPage()
 pdf.save()
+
+print(f"Generated in {str(time.time()-start)} seconds")
+
+print ("Generating a JSON file")
+start = time.time()
+with open(f"bible-{identifier}.json","w") as f:
+    json.dump(crypt,f)
+print(f"Generated in {str(time.time()-start)} seconds")
