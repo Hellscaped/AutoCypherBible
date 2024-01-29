@@ -15,7 +15,7 @@ def id_generator(size=3, chars='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'):
             s += '-'
     return s
 identifier = id_generator()
-alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ "
 obscurity = 100 # Code numbers per letter
 print(f"Generating a {str(obscurity)} codes per {str(len(alphabet))} letter multibet cypher")
 start = time.time()
