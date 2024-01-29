@@ -61,7 +61,10 @@ for i in range(0,len(alphabet)):
     pdf.drawString(5, 5, "AutoCypherBible")
     # Draw the letter top center middle
     pdf.setFont("Courier", 32)
-    pdf.drawCentredString(300, 750, alphabet[i])
+    if alphabet[i] == " ":
+        pdf.drawCentredString(300-len("SPACE")/2, 750, "SPACE")
+    else:
+        pdf.drawCentredString(300, 750, alphabet[i])
     pdf.setFont("Courier", 12)
     # draw a grid of numbers
     width = obscurity//10
